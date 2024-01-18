@@ -1,0 +1,82 @@
+<h2>{{ section.settings.title }}</h2>
+<p>{{ section.settings.desc }}</p>
+
+<div class="my-block-container">
+  {% for block in section.blocks %}
+    <div>
+      {% if block.settings.url %}
+        <a href="{{ block.settings.url }}"><img src="{{ block.settings.image | image_url }}" width="240" height="auto" alt=""></a>
+      {% else %}
+        <img src="{{ block.settings.image | image_url }}" width="240" height="auto" alt="">
+      {% endif %}
+      <h3>{{ block.settings.title }}</h3>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "My Product",
+
+    "settings": [{
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description"
+    }],
+
+    "blocks": [{
+      "name": "Product",
+      "type": "my_product",
+      "settings": [{
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Ürün adı"
+      },{
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },{
+        "type": "url",
+        "id": "url",
+        "label": "URL" 
+      }]
+    }],
+    
+    "presets": [{
+      "name": "Default My Product",
+      "settings": {
+        "title": "Başlık",
+        "desc": "Açıklama"
+      }
+    }],
+  
+    "tag": "div",
+    "class": "my-product",
+    "max_blocks": 3,
+    "limit": 1
+  }
+{% endschema %}
+
+{% stylesheet %}
+.my-product {
+  text-align: center;
+}
+.my-block-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+@media (max-width: 767px) {
+  .my-block-container {
+    grid-template-columns: 1fr;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
